@@ -1,11 +1,14 @@
 Contiki-STM32
 ========
+```sh
 
 cd $(CONTIKI_PROJECT)/examples/hello-world
 $make TARGET=stm32test hello-world.bin
 
-Using Jlink
+#Using Jlink
 cd $(JLINK_DIR)
+```sh
+
 ./JLinkExe
 
 Jlink-Console
