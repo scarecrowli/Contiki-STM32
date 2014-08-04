@@ -7,10 +7,10 @@ $make TARGET=stm32test hello-world.bin
 
 cd $(JLINK_DIR)
 
+./JLinkExe
 
 ```
 
-./JLinkExe
 
 Jlink-Console
 ========
