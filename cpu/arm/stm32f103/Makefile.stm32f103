@@ -72,14 +72,22 @@ PROG=openocd
 
 ARCH_FLAGS= -march=armv7-m -mthumb -mcpu=cortex-m3
 
+STM32_PERIPPHERAL_DRIVER = $(CONTIKI_CPU)/Libraries/STM32F10x_StdPeriph_Driver/inc
+CMSIS_STM32F10x = $(CONTIKI_CPU)/Libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x
+CMSIS = $(CONTIKI_CPU)/Libraries/CMSIS/CM3/CoreSupport
+MCU_FLAG = STM32F10X_MD
+
+
 CFLAGSNO = -I. -I$(CONTIKI)/core -I$(CONTIKI_CPU) -I$(CONTIKI_CPU)/loader \
-	   -I$(CONTIKI_CPU)/dbg-io \
-           -I$(CONTIKI)/platform/$(TARGET) \
+	   -I$(CONTIKI_CPU)/dbg-io -I$(STM32_PERIPPHERAL_DRIVER) \
+	   -I$(CMSIS_STM32F10x) -I$(CMSIS) \
+           -I$(CONTIKI)/platform/$(TARGET) -D$(MCU_FLAG) \
            ${addprefix -I,$(APPDIRS)} \
            -DWITH_UIP -DWITH_ASCII -DMCK=$(MCK) \
            -Wall $(ARCH_FLAGS) -g -D SUBTARGET=$(SUBTARGET)
+           
 
-CFLAGS  += $(CFLAGSNO) -O -DRUN_AS_SYSTEM -DROM_RUN
+CFLAGS  += $(CFLAGSNO) -O -DRUN_AS_SYSTEM -DROM_RUN 
 LDFLAGS += -L $(CONTIKI_CPU) -T $(LINKERSCRIPT) -nostartfiles
 
 CDEPFLAGS = $(CFLAGS) -D __MAKING_DEPS__

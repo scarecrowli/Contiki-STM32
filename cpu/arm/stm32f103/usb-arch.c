@@ -199,18 +199,18 @@ DOUBLE				0	0	1
 #define EP_HW_NUM(addr) ((addr) & 0x7f)
 
 #define USB_DISABLE_INT \
-  NVIC_DISABLE_INT(USB_LP_CAN_RX0_IRQChannel);\
-  NVIC_DISABLE_INT(USB_HP_CAN_TX_IRQChannel)
+  NVIC_DISABLE_INT(USB_LP_CAN1_RX0_IRQn);\
+  NVIC_DISABLE_INT(USB_HP_CAN1_TX_IRQn)
 
 #define USB_ENABLE_INT \
-  NVIC_ENABLE_INT(USB_LP_CAN_RX0_IRQChannel);\
-  NVIC_ENABLE_INT(USB_HP_CAN_TX_IRQChannel)
+  NVIC_ENABLE_INT(USB_LP_CAN1_RX0_IRQn);\
+  NVIC_ENABLE_INT(USB_HP_CAN1_TX_IRQn)
 
 static inline uint32_t
 usb_save_disable_int()
 {
   uint32_t v = NVIC->ISER[0];
-  NVIC->ICER[0] = (1<<USB_HP_CAN_TX_IRQChannel | 1<<USB_LP_CAN_RX0_IRQChannel);
+  NVIC->ICER[0] = (1<<USB_HP_CAN1_TX_IRQn | 1<<USB_LP_CAN1_RX0_IRQn);
   return v;
 }
 
@@ -218,7 +218,7 @@ static inline void
 usb_restore_int(uint32_t v)
 {
   NVIC->ISER[0] =
-    v & (1<<USB_HP_CAN_TX_IRQChannel | 1<<USB_LP_CAN_RX0_IRQChannel);
+    v & (1<<USB_HP_CAN1_TX_IRQn | 1<<USB_LP_CAN1_RX0_IRQn);
 }
 
 static USBEndpoint usb_endpoints[USB_MAX_ENDPOINTS];
@@ -296,8 +296,8 @@ usb_arch_setup(void)
   GPIOA->BSRR = GPIO_BSRR_BS10;
   USB->CNTR |= (USB_CNTR_CTRM | USB_CNTR_PMAOVRM | USB_CNTR_ERRM
 		| USB_CNTR_WKUPM| USB_CNTR_SUSPM | USB_CNTR_RESETM);
-  NVIC_SET_PRIORITY(USB_LP_CAN_RX0_IRQChannel, 4);
-  NVIC_ENABLE_INT(USB_LP_CAN_RX0_IRQChannel);
+  NVIC_SET_PRIORITY(USB_LP_CAN1_RX0_IRQn, 4);
+  NVIC_ENABLE_INT(USB_LP_CAN1_RX0_IRQn);
 }
 
 #define EPR_RW (USB_EP0R_EP_TYPE|USB_EP0R_EP_KIND|USB_EP0R_EA)

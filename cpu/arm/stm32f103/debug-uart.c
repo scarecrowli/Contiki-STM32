@@ -1,7 +1,6 @@
 #include <debug-uart.h>
 #include <string.h>
-#include <stm32f10x_map.h>
-#include <stm32f10x_dma.h>
+#include <stm32f10x_conf.h>
 #include <gpio.h>
 #include <nvic.h>
 
@@ -87,8 +86,8 @@ static void update_dma(void) {
 		DBG_DMA_CHANNEL->CNDTR = XMIT_BUFFER_END - xmit_buffer_head;
 		dma_end = xmit_buffer;
 	}
-	NVIC_ENABLE_INT(DMA1_Channel4_IRQChannel);
-	NVIC_SET_PRIORITY(DMA1_Channel4_IRQChannel, 2);
+	NVIC_ENABLE_INT(DMA1_Channel4_IRQn);
+	NVIC_SET_PRIORITY(DMA1_Channel4_IRQn, 2);
 	DBG_DMA_CHANNEL->CCR |= DMA_CCR4_EN;
 }
 

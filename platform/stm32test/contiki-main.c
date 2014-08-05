@@ -1,5 +1,4 @@
-#include <stm32f10x_map.h>
-#include <stm32f10x_dma.h>
+#include <stm32f10x_conf.h>
 #include <gpio.h>
 #include <nvic.h>
 #include <stdint.h>

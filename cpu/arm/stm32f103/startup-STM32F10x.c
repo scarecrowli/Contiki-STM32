@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <stm32f10x_map.h>
+#include <stm32f10x_conf.h>
 
 
 extern int main(void);

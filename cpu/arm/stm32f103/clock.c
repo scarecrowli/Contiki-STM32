@@ -1,4 +1,4 @@
-#include <stm32f10x_map.h>
+#include <stm32f10x_conf.h>
 #include <nvic.h>
 #include <sys/clock.h>
 #include <sys/cc.h>
