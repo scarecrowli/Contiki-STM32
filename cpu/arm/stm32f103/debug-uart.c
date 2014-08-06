@@ -3,6 +3,8 @@
 #include <stm32f10x_conf.h>
 #include <gpio.h>
 #include <nvic.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #ifndef DBG_UART
 #define DBG_UART USART1

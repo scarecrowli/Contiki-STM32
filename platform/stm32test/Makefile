@@ -1,26 +1,23 @@
-TARGET=stm32test
-
-all: stm32tst 
+# $Id: Makefile.sky,v 1.18 2008/09/29 12:38:18 joxe Exp $
 
 
-CONTIKI=../..
+ARCH = enc28j60.c
 
-CONTIKI_TARGET_MAIN=contiki-main.c
+ARCH += $(ADDITIONNAL_DRIVERS)
 
-PROJECT_SOURCEFILES = parity.c 
+UIPDRIVERS = me.c me_tabs.c slip.c crc16.c
 
+CONTIKI_TARGET_DIRS = . dev
+CONTIKI_DRIVERS_DIR = $(STM32F103_DRIVERS_PATH)
 
-randgen: randgen.c
-	gcc -DNDEBUG -I $(CONTIKI)/cpu/arm/stm32f103/ -I . -I $(CONTIKI)/core  randgen.c -o randgen
+ifndef CONTIKI_TARGET_MAIN
+CONTIKI_TARGET_MAIN = contiki-main.c
+endif
 
-randcheck: randcheck.c
-	gcc -DNDEBUG -I $(CONTIKI)/cpu/arm/stm32f103/ -I . -I $(CONTIKI)/core  randcheck.c -o randcheck
+CONTIKI_TARGET_SOURCEFILES +=
 
-clean: stm32test_clean
+CONTIKI_TARGET_SOURCEFILES += $(ARCH) $(UIPDRIVERS) $(CONTIKI_TARGET_MAIN)
 
-.PHONY: stm32test_clean
-
-stm32test_clean:
-
-include $(CONTIKI)/Makefile.include
+MCU=stm32f10x
+include $(CONTIKI)/cpu/arm/stm32103/Makefile.stm32f103
 

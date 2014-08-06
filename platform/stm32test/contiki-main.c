@@ -23,9 +23,9 @@ int main() {
 
 	clock_init();
 
-	printf("Initialize ENC28J60\n");
+	printf("Initialize ENC28J60\r\n");
 	enc28j60_init(mac.addr);
-	printf("Finish ENC28J60\n");
+	printf("Finish ENC28J60\r\n");
 
 	process_init();
 	process_start(&etimer_process, NULL);
