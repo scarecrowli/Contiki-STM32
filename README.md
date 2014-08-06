@@ -29,6 +29,16 @@ UART PORT:
 PB6 --> UART TX
 PB7 --> UART RX
 ```
+
+ENC28J60 PORT:
+```sh
+PB12 --> CS
+PB13 --> SCK
+PB14 --> MISO
+PB15 --> MOSI
+PA7 --> RESET
+```
+
 Build hello-world exmaple:
 ---
 ```sh
