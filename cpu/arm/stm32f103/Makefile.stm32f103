@@ -15,24 +15,32 @@ CONTIKI_CPU=$(CONTIKI_CPU_ARM)/stm32f103
 
 ### Define the source files we have in the STM32F103 port
 
-CONTIKI_CPU_DIRS = . ../common/dbg-io ../common/usb loader
+CONTIKI_CPU_DIRS = . ../common/dbg-io ../common/usb loader ./dev ./Libraries/STM32F10x_StdPeriph_Driver/src
 
 
 
-STM32F103     = clock.c debug-uart.c # interrupt-utils.c newlib-syscalls.c sys-interrupt.c rtimer-arch.c rtimer-arch-interrupt.c uip-log.c
+STM32F103     = clock.c debug-uart.c enc28j60.c# interrupt-utils.c newlib-syscalls.c sys-interrupt.c rtimer-arch.c rtimer-arch-interrupt.c uip-log.c
 
+STM32F103_STDPERIPH_DRIVER_SRC = misc.c stm32f10x_adc.c stm32f10x_bkp.c \
+				stm32f10x_can.c stm32f10x_cec.c stm32f10x_crc.c stm32f10x_dac.c \
+				stm32f10x_dbgmcu.c stm32f10x_dma.c stm32f10x_exti.c \
+				stm32f10x_flash.c stm32f10x_fsmc.c stm32f10x_gpio.c \
+				stm32f10x_i2c.c stm32f10x_iwdg.c stm32f10x_pwr.c stm32f10x_rcc.c \
+				stm32f10x_rtc.c stm32f10x_sdio.c stm32f10x_spi.c stm32f10x_tim.c \
+				stm32f10x_usart.c stm32f10x_wwdg.c
+				
 # SYSAPPS = codeprop-otf.c
 # APPDIRS += $(CONTIKI)/cpu/at91sam7s/loader
 
 # ELFLOADER = elfloader-otf.c elfloader-arm.c symtab.c cfs-ram.c
 
-include $(CONTIKI_CPU_ARM_COMMON)/usb/Makefile.usb
+#include $(CONTIKI_CPU_ARM_COMMON)/usb/Makefile.usb
 
-include $(CONTIKI_CPU_ARM_COMMON)/SD-card/Makefile.sdcard
+#include $(CONTIKI_CPU_ARM_COMMON)/SD-card/Makefile.sdcard
 
 TARGETLIBS = random.c dbg-printf.c dbg-puts.c dbg-putchar.c dbg-sprintf.c dbg-snprintf.c strformat.c
 
-CONTIKI_TARGET_SOURCEFILES += $(STM32F103) $(SYSAPPS) $(ELFLOADER) \
+CONTIKI_TARGET_SOURCEFILES += $(STM32F103) $(STM32F103_STDPERIPH_DRIVER_SRC) $(SYSAPPS) $(ELFLOADER) \
 			$(TARGETLIBS) $(UIPDRIVERS) $(USB)
 
 CONTIKI_SOURCEFILES        += $(CONTIKI_TARGET_SOURCEFILES)
@@ -87,14 +95,13 @@ CFLAGSNO = -I. -I$(CONTIKI)/core -I$(CONTIKI_CPU) -I$(CONTIKI_CPU)/loader \
            -Wall $(ARCH_FLAGS) -g -D SUBTARGET=$(SUBTARGET)
            
 
-CFLAGS  += $(CFLAGSNO) -O -DRUN_AS_SYSTEM -DROM_RUN 
+CFLAGS  += $(CFLAGSNO) -O -DRUN_AS_SYSTEM -DROM_RUN -DUSE_STDPERIPH_DRIVER
 LDFLAGS += -L $(CONTIKI_CPU) -T $(LINKERSCRIPT) -nostartfiles
 
 CDEPFLAGS = $(CFLAGS) -D __MAKING_DEPS__
 
 
-
-
+$(warning $(OBJECTDIR) ------------------)
 ### Setup directory search path for source files
 
 CUSTOM_RULE_C_TO_OBJECTDIR_O=yes
